@@ -1,0 +1,252 @@
+<div class="feedback-sticky-side body-append image_button_cover placement-right now-show">
+    <a href="#" class="feedback-toggle" rel="noopener noreferrer">Feedback</a>
+</div>
+
+<div class="feedback-card-container hidden">
+    <div class="feedback-card">
+        <span class="close-btn" aria-label="Close Feedback Form">&times;</span>
+        <h4>How satisfied are you with the content of this Page?</h4>
+        <p>Your input is valuable in helping us better understand your needs and tailor our service accordingly.</p>
+        <div class="emojis">
+            <span class="emoji" data-id="very-dissatisfied">😢</span>
+            <span class="emoji" data-id="dissatisfied">😞</span>
+            <span class="emoji" data-id="neutral">😐</span>
+            <span class="emoji" data-id="satisfied">🙂</span>
+            <span class="emoji" data-id="very-satisfied">🥰</span>
+        </div>
+        <textarea class="comment-box" placeholder="Add a Comment..."></textarea>
+        <p>By answering, you consent and agree that we use your answer, web behavior & system info to improve services, per our <a href="#" target="_blank">Privacy & Terms</a>.</p>
+        <button class="submit-btn">Submit Now</button>
+        <p class="error-message hidden">Please select an emoji before submitting.</p>
+    </div>
+</div>
+
+<style>
+    /* Feedback Button Styles */
+    html .feedback-sticky-side.image_button_cover.placement-right {
+        right: 0;
+    }
+
+    html .feedback-sticky-side.image_button_cover {
+        position: fixed;
+        top: 50%;
+        box-shadow: none;
+        z-index: 99999;
+        transition: transform .3s cubic-bezier(0, 0, 0, 1);
+    }
+
+    html .feedback-sticky-side.image_button_cover.placement-right.now-show a {
+        transform: translate3d(4px, 0, 0) rotate(-90deg);
+    }
+
+    html .feedback-sticky-side.image_button_cover.placement-right a {
+        border-radius: 3px 3px 0 0;
+        transform: translate3d(200%, 0, 0) rotate(-90deg);
+        transform-origin: 100% 100%;
+    }
+
+    html .feedback-sticky-side.image_button_cover a {
+        padding: 12px 15px;
+        font-size: 18px;
+        display: inline-block;
+        position: relative;
+        background: linear-gradient(45deg, #4caf50, #388e3c);
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-family: 'Roboto', sans-serif;
+        transition: background-color .3s, color .3s;
+    }
+
+    /* Hover effect: Only change background color and text color */
+    html .feedback-sticky-side.image_button_cover a:hover {
+        background: linear-gradient(-63deg, #03f00f, #2e7d32);
+        color: white;
+    }
+
+    /* Feedback Form Container */
+    .feedback-card-container {
+        position: fixed;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        z-index: 99998;
+        display: none;
+    }
+
+    .feedback-card-container.visible {
+        display: block;
+    }
+
+    /* Feedback Form Styles */
+    .feedback-card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        inline-size: 350px;
+        padding: 25px;
+        text-align: center;
+        position: relative;
+    }
+
+    .feedback-card .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+        color: #999;
+        background: transparent;
+        border: none;
+    }
+
+    .feedback-card .close-btn:hover {
+        color: #333;
+    }
+
+    .feedback-card h4 {
+        margin-block-end: 15px;
+        color: #333333;
+    }
+
+    .feedback-card p {
+        color: #585758;
+        font-size: 15px;
+        margin-block-end: 30px;
+    }
+
+    .emojis {
+        transition: transform 0.3s, color 0.3s;
+        display: flex;
+        justify-content: space-between;
+        margin-block-end: 20px;
+    }
+
+    .emoji {
+        cursor: pointer;
+        font-size: 30px;
+        transition: transform 0.3s, color 0.3s, filter 0.3s;
+        color: #cccccc;
+    }
+
+    .emoji:hover {
+        transform: scale(1.3);
+        filter: grayscale(0);
+        color: inherit;
+    }
+
+    .emoji.selected {
+        transform: scale(1.3);
+        color: #03070a;
+    }
+
+    .comment-box {
+        inline-size: calc(100% - 20px);
+        padding: 10px;
+        border: 1px solid #dddddd;
+        border-radius: 8px;
+        margin-block-end: 20px;
+        resize: none;
+        font-size: 14px;
+        font-family: inherit;
+        outline: none;
+    }
+
+    .submit-btn {
+        background: linear-gradient(45deg, #4caf50, #388e3c);
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        inline-size: 100%;
+        font-size: 18px;
+        transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+        background: linear-gradient(-63deg, #03f00f, #2e7d32);
+    }
+
+    .selected {
+        color: #ffcc00;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+
+<script>
+    // Toggle visibility of the feedback form
+    document.querySelector('.feedback-toggle').addEventListener('click', function(event) {
+        event.preventDefault();
+        var feedbackCardContainer = document.querySelector('.feedback-card-container');
+        feedbackCardContainer.classList.toggle('visible');
+    });
+
+    // Close the feedback form when clicking the close button
+    document.querySelector('.close-btn').addEventListener('click', function() {
+        document.querySelector('.feedback-card-container').classList.remove('visible');
+    });
+
+    var emojis = document.querySelectorAll('.emoji');
+    var selectedEmoji = null;
+
+    for (var i = 0; i < emojis.length; i++) {
+        emojis[i].addEventListener('click', function() {
+            for (var j = 0; j < emojis.length; j++) {
+                emojis[j].classList.remove('selected');
+            }
+            this.classList.add('selected');
+            selectedEmoji = this.getAttribute('data-id');
+            document.querySelector('.error-message').classList.add('hidden');
+        });
+
+        emojis[i].addEventListener('mouseover', function() {
+            for (var j = 0; j < emojis.length; j++) {
+                emojis[j].style.color = '#cccccc';
+            }
+            this.style.color = '';
+        });
+
+        emojis[i].addEventListener('mouseout', function() {
+            for (var j = 0; j < emojis.length; j++) {
+                emojis[j].style.color = '';
+            }
+        });
+    }
+
+    document.querySelector('.submit-btn').addEventListener('click', function() {
+        if (!selectedEmoji) {
+            document.querySelector('.error-message').classList.remove('hidden');
+            return;
+        }
+
+        var comment = document.querySelector('.comment-box').value;
+
+        // Push data to the dataLayer
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'feedbackScore': selectedEmoji,
+            'feedbackComment': comment || 'no-comment',
+            'event': 'feedback'
+        });
+
+        // Log the dataLayer push for debugging (optional)
+        console.log('Data pushed to dataLayer:', {
+            'feedbackScore': selectedEmoji,
+            'feedbackComment': comment || 'no-comment',
+            'event': 'feedback'
+        });
+
+        // Hide the feedback form after submission
+        document.querySelector('.feedback-card-container').classList.remove('visible');
+    });
+</script>
